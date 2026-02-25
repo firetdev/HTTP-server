@@ -16,7 +16,7 @@ int main() {
     sockaddr_in address{};
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;  // Listen on all interfaces
-    address.sin_port = htons(8080);        // Port 8080
+    address.sin_port = htons(8080);  // Port 8080
 
     // Bind socket to port
     if (bind(server_fd, (sockaddr*)&address, sizeof(address)) < 0) {
