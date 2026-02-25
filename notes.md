@@ -10,13 +10,19 @@ int server_fd = socket(AF_INET, SOCK_STREAM, 0);
 
 Makes a TCP socket for IPv4
 
+
 AF_INET = IPv4
+
 SOCK_STREAM = TCP (streams, rather than UDP which sends packets into the void like a shotgun)
+
 0 = default protocol
 
 Returns:
+
 File descriptor (int)
+
 Or -1 on error
+
 
 ```
 sockaddr_in address{};
@@ -30,22 +36,33 @@ address.sin_addr.s_addr = INADDR_ANY;
 sin_family must match socket domain.
 
 INADDR_ANY means bind to:
+
 0.0.0.0
+
 (Listen on all network interfaces)
+
 If you set:
+
 inet_addr("127.0.0.1")
+
 It would only listen locally.
+
 
 ```
 address.sin_port = htons(8080);
 ```
 Very important.
+
 Ports must be in network byte order (big-endian).
 
 htons() =
+
 Host To Network Short.
+
 It converts Little-endian to Big-endian.
+
 Without this, networking breaks.
+
 
 ```
 bind(server_fd, (sockaddr*)&address, sizeof(address));
@@ -57,13 +74,13 @@ Important syntax:
 
 C-style cast used here.
 
-Cast because bind() expects a generic sockaddr*.
-But we have a sockaddr_in*.
+Cast because bind() expects a generic sockaddr*, but we have a sockaddr_in*.
 
 ```
 listen(server_fd, 10);
 ```
 Backlog = 10 means Kernel can queue up to 10 pending connections before refusing new ones.
+
 Socket now moves to PASSIVE mode.
 
 ```
@@ -105,17 +122,23 @@ const char* response =
 ```
 
 Pretty self-explanatory, manually write a response.
+
 \r\n because HTTP requires CRLF line endings.
 
 Empty line:
+
 \r\n
+
 Marks end of headers (then it's the body).
+
 Content-Length must match body length; "Hello, world!" is 13 bytes.
+
 
 ```
 send(client_fd, response, strlen(response), 0);
 ```
 This writes bytes to the TCP socket.
+
 Last parameter 0 means no flags.
 
 After all this, we simply close the connections!
