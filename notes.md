@@ -70,15 +70,24 @@ Socket now moves to PASSIVE mode.
 int client_fd = accept(server_fd, nullptr, nullptr);
 ```
 This:
+
 -Blocks until a client connects
+
 -Performs TCP handshake
+
 -Returns a new socket FD
 
+
 Important concept:
+
 We now have:
+
 server_fd: listening socket
+
 client_fd: connection-specific socket
+
 This is how servers handle multiple clients.
+
 
 ```
 char buffer[4096] = {0};
